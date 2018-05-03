@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string>grAPI_Notification</string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>All</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>    func getDataRequest() {
+        champs = []
+        let urlString = "http://infomationchampion.pe.hu/showInfo.php?index=1&amp;number=19"
+        guard let url = URL(string: urlString) else { return }
+        let urlRequest = URLRequest(url: url)
+        
+        URLSession.shared.dataTask(with: urlRequest) { (data, response, erorr) in
+            guard erorr == nil else { return }
+            guard let json = try? JSONSerialization.jsonObject(with: data!, options: .mutableContainers) else { return }
+            guard let jsonObject = json as? [DICT] else {return}
+            for dict in jsonObject {
+                if let champ = Champ(dict: dict){
+                    self.champs.append(champ)
+                }
+            }
+            NotificationCenter.default.post(name: .updateData, object: nil)
+        }.resume()
+    }
+}
+
+extension Notification.Name {
+    static let updateData = Notification.Name.init("updateData")
+}</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>2E3A3EF4-B561-4E01-981D-C1C8E16809B7</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetPlatformFamily</key>
+	<string>iphoneos</string>
+	<key>IDECodeSnippetTitle</key>
+	<string>GetRequestAPI_Notification</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>0</integer>
+</dict>
+</plist>
